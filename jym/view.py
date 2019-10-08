@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox as mes
 from tkinter import ttk
+import threading
+from datetime import datetime
 
 from css import Css
 from backed import *
@@ -52,7 +54,6 @@ class JYMView():
         title = tk.Label(self.index_tab, text="家国梦脚本", fg=Css.Color['main_color'], font=('Comic Sans MS', 16))
         title.pack()
         tk.Label(self.index_tab, text='-----------------------------------', font=('', 10)).pack()
-
         self.start_button = tk.Button(self.index_tab, Css.Button['primary_btn'], text="启动", command=self.start)
         self.start_button.place(x=46, y=210)
 
@@ -62,13 +63,14 @@ class JYMView():
         # log_wrapper.place(x=0, y=150)
         # log_wrapper.insert("end", "2019:04:15\n")
         # log_wrapper.insert("insert", "2019:04:16")
+
         # 模式选择框
         tk.Label(self.index_tab, text='选择功能').place(x=10, y=52)
         self.mode = tk.StringVar()
         self.mode.set('1')
-        radio1 = tk.Radiobutton(self.index_tab, variable=self.mode, value='1', text='卸货').place(x=65, y=50)
-        radio2 = tk.Radiobutton(self.index_tab, variable=self.mode, value='2', text='开红包').place(x=120, y=50)
-        radio3 = tk.Radiobutton(self.index_tab, variable=self.mode, value='3', text='开相册').place(x=180, y=50)
+        tk.Radiobutton(self.index_tab, variable=self.mode, value='1', text='卸货').place(x=65, y=50)
+        tk.Radiobutton(self.index_tab, variable=self.mode, value='2', text='开红包').place(x=120, y=50)
+        tk.Radiobutton(self.index_tab, variable=self.mode, value='3', text='开相册').place(x=180, y=50)
         # 附加功能复选框
         self.auto_money = tk.IntVar()
         self.auto_level = tk.IntVar()
@@ -91,25 +93,17 @@ class JYMView():
         self.pag_count3.place(x=121, y=177)
         self.photo_count.place(x=205, y=177)
 
-    def start(self):
-        '''开始任务'''
-        self.start_button.config(Css.Button['danger_btn'], text='暂停', command=self.pause)
-
-    def pause(self):
-        '''暂停任务'''
-        self.start_button.config(Css.Button['primary_btn'], text='启动', command=self.start)
-
     def config_view(self):
         '''配置页面'''
-        def get_coord():
-            coord = {
-                'building1': (building1x.get(), building1y.get()),
-                'building2': (building2x.get(), building2y.get()),
-                'building3': (building3x.get(), building3y.get()),
-                'building4': (building4x.get(), building4y.get()),
-                'building5': (building5x.get(), building5y.get())
-            }
-            count_coord(coord)
+        # def get_coord():
+        #     coord = {
+        #         'building1': (building1x.get(), building1y.get()),
+        #         'building2': (building2x.get(), building2y.get()),
+        #         'building3': (building3x.get(), building3y.get()),
+        #         'building4': (building4x.get(), building4y.get()),
+        #         'building5': (building5x.get(), building5y.get())
+        #     }
+        #     count_coord(coord)
 
         canvas_export = tk.Canvas(self.config_tab, height=240, width=240)
         canvas_export.pack()
@@ -148,7 +142,7 @@ class JYMView():
         building5y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
         building5y.place(x=150, y=180)
 
-        config_button = tk.Button(self.config_tab, Css.Button['danger_btn'], text='配置', command=get_coord)
+        config_button = tk.Button(self.config_tab, Css.Button['danger_btn'], text='配置', command=None)
         config_button.place(x=55, y=220)
 
     def about_view(self):
@@ -163,6 +157,45 @@ class JYMView():
         self.index_view()
         self.config_view()
         self.about_view()
+
+    # 事件区
+    def get_user_input(self):
+        user_input = {
+            'mode': self.mode.get(),
+            'auto_money': self.auto_money.get(),
+            'auto_level': self.auto_level.get(),
+            'all_cargo': self.all_cargo.get(),
+            'pag_count1': self.pag_count1.get(),
+            'pag_count2': self.pag_count2.get(),
+            'pag_count3': self.pag_count3.get(),
+            'photo_count': self.photo_count.get(),
+        }
+        return user_input
+
+    def start(self):
+        '''开始任务'''
+        self.start_button.config(Css.Button['danger_btn'], text='暂停', command=self.pause)
+        print(f"{datetime.now()}:任务开始")
+        user_input = self.get_user_input()
+        global event
+        event = threading.Event()
+        event.clear()  # event值设置为False
+        task_thread = threading.Thread(target=back_task, name='TaskThread', args=(event, user_input))
+        task_thread.start()
+
+    def pause(self):
+        '''暂停任务'''
+        self.start_button.config(Css.Button['primary_btn'], text='启动', command=self.start)
+        event.set()  # event值设置为True
+
+
+def back_task(event, user_input):
+    while 1:
+        if event.isSet():
+            print(f"{datetime.now()}:任务暂停")
+            break
+        main(user_input)
+        time.sleep(1)
 
 
 if __name__ == '__main__':

@@ -22,26 +22,95 @@ def pil_image(x, y):
     mouse.release(Button.left)
     return pix[x, y]
 
-# border=2
-# 高度差130
-# 宽度差130
 
-# 1403,412
-# 1535,347
-# 1667,282
+def count_crood():
+    '''计算坐标，需要把模拟器高度设置800，置于电脑右上角'''
+    a, b = GetSystemMetrics(0), GetSystemMetrics(1)
+    buildings = {
+        "building1": (a-348, 313),
+        "building2": (a-243, 265),
+        "building3": (a-131, 200),
+        "building4": (a-346, 421),
+        "building5": (a-241, 376),
+        "building6": (a-146, 324),
+        "building7": (a-345, 521),
+        "building8": (a-242, 475),
+        "building9": (a-141, 426)
+    }
+    # 史诗建筑坐标，史诗建筑要求放在2，3，5,6,8,9位置上
+    epic_buildings = {
+        "building2": (a - 243, 265),
+        "building3": (a - 131, 200),
+        "building5": (a-241, 376),
+        "building6": (a-146, 324),
+        "building9": (a - 141, 426)
+    }
+    cargos = {
+        "cargo1": (a-197, 691),
+        "cargo2": (a-136, 656),
+        "cargo3": (a-83, 624)
+    }
 
-# 1403,544
-# 1535,479
-# 1667,414
+    others = {
+        "avator": (a-432, 70),
+        "logout": (a-336, 605),
+        "login": (a-328, 671)
+    }
 
-# 1403,674
-# 1535,610
-# 1667,544
+    return {
+        "buildings": buildings,
+        "epic_buildings": epic_buildings,
+        "cargos": cargos,
+        "others": others
+    }
 
 
-# 1661,890
-# 1740,856
-# 1824,814
+def collect_money():
+    '''收集金币'''
+    buildings_crood = count_crood()['buildings']
+    for building, crood in buildings_crood.items():
+        mouse.position = crood
+        mouse.click(Button.left, 1)
+        print(f"已收集{building}金币")
+        time.sleep(1)
+
+
+def discharge_cargo():
+    '''卸货'''
+    epic_buildings_crood = count_crood()['buildings']
+    epic_buildings_crood = count_crood()['epic_buildings']
+    cargos_crood = count_crood()['cargos']
+
+    for cargo, crood in cargos_crood.items():  # 遍历货箱，需优化只找史诗货物
+        for i in range(4):   # 史诗货物卸两次
+            for epic_build, epic_crood in epic_buildings_crood.items():  # 遍历寻找建筑，需优化点对点
+                    x = epic_crood[0] - crood[0]
+                    y = epic_crood[1] - crood[1]
+                    mouse.position = crood
+                    mouse.press(Button.left)
+                    time.sleep(0.1)
+                    mouse.move(x, y)
+                    time.sleep(0.15)
+                    mouse.click(Button.left, 1)
+                    mouse.release(Button.left)
+                    print(f"搬运{cargo}到{epic_build}...")
+
+
+def restat_game():
+    '''重启游戏，提示效率，刷新火车'''
+    others = count_crood()['others']
+    # 点击头像
+    mouse.position = others['avator']
+    mouse.click(Button.left)
+    time.sleep(1.5)
+    # 点击退出
+    mouse.position = others['logout']
+    mouse.click(Button.left)
+    time.sleep(5)
+    # 点击登录，微信登录，需改成可以选择登录方式
+    mouse.position = others['login']
+    mouse.click(Button.left)
+
 
 def set_crood():
     builds = {
@@ -88,4 +157,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    restat_game()
