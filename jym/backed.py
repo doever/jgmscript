@@ -6,34 +6,89 @@ from win32api import GetSystemMetrics
 from PIL import ImageGrab
 
 from mouse_action import *
+from setting import *
 
 mouse = Controller()
 
 
-def pil_image(x, y):
+def find_window():
+    '''定位模拟器的坐标'''
+    window_name = '雷电模拟器'
+    hwnd = win32gui.FindWindow(None, window_name)
+    return win32gui.GetWindowRect(hwnd)  # 1330 11 1908 1009
+
+
+def count_crood():
+    '''计算相对坐标'''
+    left, top, right, bottom = find_window()
+    buildings = {
+        # 'building1': (left+150, top+380),  # (1480, 390),
+        # 'building2': (left+270, top+300),  # (1600, 310),
+        # 'building3': (left+400, top+240),  # (1730, 250),
+        # 'building4': (left+150, top+510),  # (1480, 510),
+        # 'building5': (left+270, top+450),  # (1600, 450),
+        # 'building6': (left+400, top+390),  # (1730, 390),
+        # 'building7': (left+150, top+630),  # (1480, 630),
+        # 'building8': (left+270, top+580),  # (1600, 580),
+        # 'building9': (left+400, top+510)   # (1730, 510)
+
+        'building1': (left + 147, top + 397),
+        'building2': (left + 276, top + 332),
+        'building3': (left + 402, top + 266),
+        'building4': (left + 147, top + 523),
+        'building5': (left + 276, top + 460),
+        'building6': (left + 402, top + 397),
+        'building7': (left + 147, top + 650),
+        'building8': (left + 276, top + 588),
+        'building9': (left + 402, top + 523),
+    }
+    epic_buildings = {
+
+    }
+    cargos = {
+        'cargo1': (left+329, top+857),  # (1671, 881),
+        'cargo2': (left+410, top+821),  # (1703, 783),
+        'cargo3': (left+489, top+772)   # (1831, 796)
+    }
+    cargo_tag = {
+        'cargo1': (left+294, top+818),  # (1636, 842),
+        'cargo2': (left+372, top+777),  # (1714, 801),
+        'cargo3': (left+449, top+734)   # (1791, 758)
+    }
+    others = {
+        "avator": (left+28, top+66),    # (1370, 90),
+        "logout": (left+152, top+755),  # (1494, 779),
+        "login": (left+200, top+820),  # (1625, 823),
+        "train": (left+257, top+880),   # (1599, 904)
+        "safe": (left+10, top+110)  # 安全点
+    }
+    return {
+        "buildings": buildings,
+        "epic_buildings": epic_buildings,
+        "cargos": cargos,
+        "cargo_tags": cargo_tag,
+        "others": others
+    }
+
+
+Croods = count_crood()
+
+
+def pil_image():
+    '''屏幕截图'''
     a, b = GetSystemMetrics(0), GetSystemMetrics(1)  # Python获取屏幕分辨率
     im = ImageGrab.grab((0, 0, a, b))  # 与坐标不同，这里0，0，1，1是一个像素，而坐标是从0~1919的
     pix = im.load()
-    return pix[x, y]
+    return pix
 
 
-def color_like(colorA, colorB):
+def color_like(colorA, colorB, offset):
     '''判断两个颜色的RGB值是否相近'''
     is_like = False
-    diff = (colorA[0] - colorB[0]) + (colorA[1] - colorB[1]) + (colorA[2] - colorB[2])
-    if abs(diff) < 25:
+    diff = abs(colorA[0] - colorB[0]) + abs(colorA[1] - colorB[1]) + abs(colorA[2] - colorB[2])
+    if abs(diff) < offset:
         is_like = True
     return is_like
-
-
-def init_mouse():
-    '''
-    初始化操作，确保不被其他弹窗影响
-    :return:
-    '''
-    mouse.position = (1850, 850)
-    mouse.click(Button.left, 1)
-    print("初始化鼠标完成")
 
 
 def mouse_move_2(src, dist):
@@ -54,105 +109,9 @@ def mouse_move_2(src, dist):
         mouse.release(Button.left)
 
 
-def count_crood():
-    '''计算坐标，需要把模拟器高度设置800，置于电脑右上角'''
-    a, b = GetSystemMetrics(0), GetSystemMetrics(1)
-    buildings = {
-        "building1": (a-348, 313),
-        "building2": (a-243, 265),
-        "building3": (a-131, 200),
-        "building4": (a-346, 421),
-        "building5": (a-241, 376),
-        "building6": (a-146, 324),
-        "building7": (a-345, 521),
-        "building8": (a-242, 475),
-        "building9": (a-141, 426)
-    }
-    # 史诗建筑坐标，史诗建筑要求放在2，3，5,6,8,9位置上
-    epic_buildings = {
-        "building2": (a - 243, 265),
-        "building3": (a - 131, 200),
-        "building5": (a-241, 376),
-        "building6": (a-146, 324),
-        "building9": (a - 141, 426)
-    }
-    cargos = {
-        "cargo1": (a-197, 691),
-        "cargo2": (a-136, 656),
-        "cargo3": (a-83, 624)
-    }
-
-    others = {
-        "avator": (a-432, 70),
-        "logout": (a-336, 605),
-        "login": (a-328, 671)
-    }
-
-    return {
-        "buildings": buildings,
-        "epic_buildings": epic_buildings,
-        "cargos": cargos,
-        "others": others
-    }
-
-
-
-
-
-
-
-def find_window():
-    '''定位模拟器的坐标'''
-    window_name = '雷电模拟器'
-    hwnd = win32gui.FindWindow(None, window_name)
-    return win32gui.GetWindowRect(hwnd)  # 1330 11 1908 1009
-
-
-def count_crood2():
-    '''计算相对坐标'''
-    left, top, right, bottom = find_window()
-    buildings = {
-        'building1': (left+150, top+380),  # (1480, 390),
-        'building2': (left+270, top+300),  # (1600, 310),
-        'building3': (left+400, top+240),  # (1730, 250),
-        'building4': (left+150, top+510),  # (1480, 510),
-        'building5': (left+270, top+450),  # (1600, 450),
-        'building6': (left+400, top+390),  # (1730, 390),
-        'building7': (left+150, top+630),  # (1480, 630),
-        'building8': (left+270, top+580),  # (1600, 580),
-        'building9': (left+400, top+510)   # (1730, 510)
-    }
-    epic_buildings = {
-
-    }
-    cargos = {
-        'cargo1': (left+329, top+857),  # (1671, 881),
-        'cargo2': (left+361, top+759),  # (1703, 783),
-        'cargo3': (left+489, top+772)   # (1831, 796)
-    }
-    cargo_tag = {
-        'cargo1': (left+294, top+818),  # (1636, 842),
-        'cargo2': (left+372, top+777),  # (1714, 801),
-        'cargo3': (left+449, top+734)   # (1791, 758)
-    }
-    others = {
-        "avator": (left+28, top+66),    # (1370, 90),
-        "logout": (left+152, top+755),  # (1494, 779),
-        "login": (left+283, top+799),  # (1625, 823),
-        "train": (left+257, top+880)   # (1599, 904)
-    }
-    return {
-        "buildings": buildings,
-        "epic_buildings": epic_buildings,
-        "cargos": cargos,
-        "cargo_tag": cargo_tag,
-        "others": others
-    }
-
-
 def find_target_color(color, callback=lambda: None):
     '''
-    找对应颜色
+    找对应颜色，精确度较差
     :param color：RGB颜色元组(86,200,42)  callback:未找到颜色该做什么
     :return x,y：目标色块的坐标
     '''
@@ -185,18 +144,64 @@ def find_target_color(color, callback=lambda: None):
     return crood
 
 
+def find_target_building(color):
+    '''找目标建筑，分割pix为九块，比较九块区域目标色值的个数，最多的或超过多少就是目标建筑'''
+    buildings = Croods['buildings']
+    width_offset = 85
+    height_offset = 35
+    pix = pil_image()
+    for building, crood in buildings.items():
+        count = 0
+        for width in range(crood[0]-width_offset, crood[0]+width_offset):
+            for height in range(crood[1]-height_offset, crood[1]+height_offset):
+                if color_like(pix[width, height], color, 15):
+                    count += 1
+        # print(f"在{building}中共找到{count}处与目标值相近")
+        if count > 8:  # 如果发现八处，那就八九不离十了
+            print(f"目标建筑是{building}")
+            return Croods['buildings'][building]  # 返回建筑坐标
+        else:
+            continue
+    return 0, 0  # 表示未找到
+
+
+def train_come():
+    '''判断火车是否来了'''
+    flag = False
+    pix = pil_image()
+    x = Croods['others']['train'][0]
+    y = Croods['others']['train'][1]
+    train_color = pix[x, y]
+    if color_like(train_color, TRAIN_COLOR, 10):
+        flag = True
+    return flag
+
+
+def init_mouse():
+    '''
+    初始化鼠标操作，确保不被其他弹窗影响
+    :return:
+    '''
+    safe = Croods['others']['safe']
+    mouse_move(safe)
+    for no in range(2):
+        mouse_lclick()
+        time.sleep(0.25)
+    print("初始化鼠标完成")
+
+
 def collect_money():
     '''收集金币'''
-    buildings_crood = count_crood()['buildings']
+    buildings_crood = Croods['buildings']
     for building, crood in buildings_crood.items():
         mouse.position = crood
         mouse.click(Button.left, 1)
         print(f"已收集{building}金币")
-        time.sleep(1)
+        time.sleep(0.1)
 
 
-def restat_game():
-    '''重启游戏，提示效率，刷新火车'''
+def reboot():
+    '''重启游戏，刷新火车，提高效率'''
     others = count_crood()['others']
     # 点击头像
     mouse.position = others['avator']
@@ -211,17 +216,60 @@ def restat_game():
     mouse.click(Button.left)
 
 
-def is_train_come(coord):
-    '''判断火车是否来了'''
-    pass
-
-
-def discharge_cargo(user_input):
+def discharge_cargo(cargo_crood, times):
     '''卸货'''
-    epic_buildings_crood = count_crood()['buildings']
-    epic_buildings_crood = count_crood()['epic_buildings']
-    cargos_crood = count_crood()['cargos']
-    pass
+    mouse_move(cargo_crood)
+    mouse_lpress()
+    time.sleep(0.2)
+    target_crood = find_target_building(BUILDING_ACTIVE_COLOR)
+    mouse_lrelease()
+    if target_crood[0] == 0:  # 未找到对应的建筑,遍历所有建筑
+        print("未发现目标建筑")
+    else:
+        x = target_crood[0] - cargo_crood[0]
+        y = target_crood[1] - cargo_crood[1]
+        for no in range(times):
+            # mouse.position = cargo_crood
+            # mouse.press(Button.left)
+            # time.sleep(1)
+            # mouse.move(x, y)
+            # # mouse_move(target_crood)
+            # time.sleep(1)
+            # mouse.release(Button.left)
+            # mouse_move(cargo_crood)
+            mouse_drag(cargo_crood, target_crood)
+            print(f"移动货物{cargo_crood}到建筑{target_crood}上")
+
+
+def cargo(user_input):
+    '''
+    卸货模式:
+    1.判断火车有没有来，间隔等待3s，来了进入史诗资源判断
+    2.依次判断三个货箱有没有史诗，有则进入卸货（加收获金币），没有重启
+    3.再次进入火车判断
+    '''
+    all_cargo = user_input['all_cargo']
+    if train_come():
+        time.sleep(3)  # 火车来的时候需要等一会才会刷新货物
+        print("开始卸货")
+        for cargo, crood in Croods['cargo_tags'].items():
+            if all_cargo:                                                 # 选择拉所有货
+                print(f"搬运货物{cargo}中")
+                discharge_cargo(Croods['cargos'][cargo], 5)
+            else:
+                pix = pil_image()
+                if color_like(pix[crood[0], crood[1]], EPIC_COLOR, 15):   # 如果是史诗货物
+                    discharge_cargo(Croods['cargos'][cargo], 3)           # 按史诗卸货
+                else:
+                    print(f'在{cargo}未发现史诗货物')
+        collect_money()                                                   # 收集金币
+        init_mouse()                                                      # 初始化鼠标
+        print("游戏重启...")
+        reboot()                                                          # 进入重启
+
+    else:
+        time.sleep(3)
+        print("等待火车中...")
 
 
 def open_red_package(user_input):
@@ -237,7 +285,7 @@ def open_photo(user_input):
 def main(user_input):
     mode = user_input['mode']
     if mode == '1':
-        discharge_cargo(user_input)
+        cargo(user_input)
     elif mode == '2':
         open_red_package(user_input)
     else:
@@ -245,15 +293,9 @@ def main(user_input):
 
 
 if __name__ == '__main__':
-    # main({'mode': '1'})
-    # 测试找色
-    # print(find_target_color((154, 152, 255)))
-    cargo = count_crood2()['cargos']['cargo1']
-    mouse_move(cargo)
-    mouse_lpress()
-    time.sleep(0.5)
-    target = find_target_color((138, 195, 113))
-    mouse_lrelease()
-    mouse_move(target)
-    for i in range(2):
-        mouse_drag(cargo, target)
+    main({'mode': '1', 'all_cargo': 1})
+
+    # while 1:
+    #     main({'mode': '1', 'all_cargo': 1})
+    #     time.sleep(3)
+

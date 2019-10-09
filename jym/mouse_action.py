@@ -15,10 +15,11 @@ def mouse_drag(src, dist):
     '''鼠标拖动'''
     mouse_move(src)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-    time.sleep(0.3)
+    time.sleep(0.2)
     mouse_move(dist)
-    time.sleep(0.3)
+    time.sleep(0.2)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+    time.sleep(0.2)
 
 
 def mouse_lclick():
