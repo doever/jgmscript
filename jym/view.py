@@ -4,8 +4,8 @@ from tkinter import ttk
 import threading
 from datetime import datetime
 
-from css import Css
-from backed import *
+from jym.css import Css
+from jym.backed import *
 
 
 class JYMView():

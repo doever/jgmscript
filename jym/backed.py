@@ -5,8 +5,8 @@ import win32gui, win32api, win32con
 from win32api import GetSystemMetrics
 from PIL import ImageGrab
 
-from mouse_action import *
-from setting import *
+from jym.mouse_action import *
+from jym.setting import *
 
 mouse = Controller()
 
@@ -14,8 +14,13 @@ mouse = Controller()
 def find_window():
     '''定位模拟器的坐标'''
     window_name = '雷电模拟器'
-    hwnd = win32gui.FindWindow(None, window_name)
-    return win32gui.GetWindowRect(hwnd)  # 1330 11 1908 1009
+    try:
+        hwnd = win32gui.FindWindow(None, window_name)
+        crood = win32gui.GetWindowRect(hwnd)
+    except:
+        print("未获取窗口")
+    else:
+        return crood  # 1330 11 1908 1009
 
 
 def count_crood():
