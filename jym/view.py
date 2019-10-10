@@ -162,10 +162,10 @@ class JYMView():
             'auto_money': self.auto_money.get(),
             'auto_level': self.auto_level.get(),
             'all_cargo': self.all_cargo.get(),
-            'blue_package': int(self.blue_package.get()),
-            'purple_package': int(self.purple_package.get()),
-            'epic_package': int(self.epic_package.get()),
-            'photo_count': int(self.photo_count.get())
+            'blue_package': self.blue_package.get(),
+            'purple_package': self.purple_package.get(),
+            'epic_package': self.epic_package.get(),
+            'photo_count': self.photo_count.get()
         }
         return user_input
 

@@ -256,6 +256,10 @@ def open_pag(crood, count, reset_count):
         who = "相册"
     else:
         who = '道具'
+    try:
+        count = int(count)
+    except ValueError:
+        count = 0
 
     for i in range(count):
         mouse_move(crood)
