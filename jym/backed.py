@@ -233,7 +233,7 @@ def cargo(user_input):
         reboot()                                                          # 进入重启
         time.sleep(10)
     else:
-        time.sleep(3)
+        time.sleep(4)
         collect_money()                  # 20191010 等待火车的时候也需要收集下金币
         print("等待火车中...")
 

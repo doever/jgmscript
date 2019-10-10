@@ -25,6 +25,7 @@ def find_window(window_name):
         crood = win32gui.GetWindowRect(hwnd)
     except:
         print("未获取窗口")
+        mes.showerror("错误提示", "未获取到窗口，请先修改config文件")
     else:
         return crood  # 1330 11 1908 1009
 
