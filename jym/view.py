@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import messagebox as mes
 from tkinter import ttk
@@ -26,8 +27,8 @@ class JYMView():
         self.index_tab = ttk.Frame(self.tabControl)
         self.tabControl.add(self.index_tab, text='首页')
 
-        self.config_tab = ttk.Frame(self.tabControl)
-        self.tabControl.add(self.config_tab, text='配置坐标')
+        # self.config_tab = ttk.Frame(self.tabControl)
+        # self.tabControl.add(self.config_tab, text='配置坐标')
 
         self.about_tab = ttk.Frame(self.tabControl)
         self.tabControl.add(self.about_tab, text='说明')
@@ -42,11 +43,11 @@ class JYMView():
         # 增加主题
         # 第一个菜单
         fileMenu = tk.Menu(menuBar, tearoff=0)
-        fileMenu.add_command(label="操作日志", command=None)
+        fileMenu.add_command(label="配置", command=self.listen_config_event)
         fileMenu.add_separator()
         fileMenu.add_command(label="意见反馈", command=None)
         fileMenu.add_separator()
-        fileMenu.add_command(label="退出程序", command=None)
+        fileMenu.add_command(label="退出程序", command=self.listen_quit_event)
         menuBar.add_cascade(label="系统", menu=fileMenu)
 
     def index_view(self):
@@ -54,15 +55,8 @@ class JYMView():
         title = tk.Label(self.index_tab, text="家国梦脚本", fg=Css.Color['main_color'], font=('Comic Sans MS', 16))
         title.pack()
         tk.Label(self.index_tab, text='-----------------------------------', font=('', 10)).pack()
-        self.start_button = tk.Button(self.index_tab, Css.Button['primary_btn'], text="启动", command=self.start)
+        self.start_button = tk.Button(self.index_tab, Css.Button['primary_btn'], text="启动", command=self.listen_start_event)
         self.start_button.place(x=46, y=210)
-
-        # 日志输出区
-        # global log_wrapper
-        # log_wrapper = tk.Text(self.index_tab, height=10, width=40)
-        # log_wrapper.place(x=0, y=150)
-        # log_wrapper.insert("end", "2019:04:15\n")
-        # log_wrapper.insert("insert", "2019:04:16")
 
         # 模式选择框
         tk.Label(self.index_tab, text='选择功能').place(x=10, y=52)
@@ -103,51 +97,54 @@ class JYMView():
         #         'building4': (building4x.get(), building4y.get()),
         #         'building5': (building5x.get(), building5y.get())
         #     }
-        #     count_coord(coord)
-
-        canvas_export = tk.Canvas(self.config_tab, height=240, width=240)
-        canvas_export.pack()
-        canvas_export.create_rectangle(0, 0, 240, 240, fill="white")
-
-        title = tk.Label(self.config_tab, text="配置坐标", fg=Css.Color['main_color'], bg='white', font=('Comic Sans MS', 16))
-        title.place(x=150, y=2)
-
-        canvas_export.create_text(40, 70, text='建筑1坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
-        building1x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building1x.place(x=80, y=60)
-        building1y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building1y.place(x=150, y=60)
-
-        canvas_export.create_text(40, 100, text='建筑3坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
-        building2x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building2x.place(x=80, y=90)
-        building2y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building2y.place(x=150, y=90)
-
-        canvas_export.create_text(40, 130, text='建筑7坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
-        building3x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building3x.place(x=80, y=120)
-        building3y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building3y.place(x=150, y=120)
-
-        canvas_export.create_text(40, 160, text='货物1坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
-        building4x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building4x.place(x=80, y=150)
-        building4y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building4y.place(x=150, y=150)
-
-        canvas_export.create_text(40, 190, text='货物2坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
-        building5x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building5x.place(x=80, y=180)
-        building5y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
-        building5y.place(x=150, y=180)
-
-        config_button = tk.Button(self.config_tab, Css.Button['danger_btn'], text='配置', command=None)
-        config_button.place(x=55, y=220)
+        #     return coord
+        #
+        # canvas_export = tk.Canvas(self.config_tab, height=240, width=240)
+        # canvas_export.pack()
+        # canvas_export.create_rectangle(0, 0, 240, 240, fill="white")
+        #
+        # title = tk.Label(self.config_tab, text="配置坐标", fg=Css.Color['main_color'], bg='white', font=('Comic Sans MS', 16))
+        # title.place(x=150, y=2)
+        #
+        # canvas_export.create_text(40, 70, text='建筑1坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
+        # building1x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building1x.place(x=80, y=60)
+        # building1y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building1y.place(x=150, y=60)
+        #
+        # canvas_export.create_text(40, 100, text='建筑3坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
+        # building2x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building2x.place(x=80, y=90)
+        # building2y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building2y.place(x=150, y=90)
+        #
+        # canvas_export.create_text(40, 130, text='建筑7坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
+        # building3x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building3x.place(x=80, y=120)
+        # building3y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building3y.place(x=150, y=120)
+        #
+        # canvas_export.create_text(40, 160, text='货物1坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
+        # building4x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building4x.place(x=80, y=150)
+        # building4y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building4y.place(x=150, y=150)
+        #
+        # canvas_export.create_text(40, 190, text='货物2坐标', fill="#2f2f2f", font=Css.TEXT_FONT)
+        # building5x = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building5x.place(x=80, y=180)
+        # building5y = tk.Entry(self.config_tab, bd=2, highlightcolor=Css.Color['main_color'], width=8)
+        # building5y.place(x=150, y=180)
+        #
+        # config_button = tk.Button(self.config_tab, Css.Button['danger_btn'], text='配置', command=None)
+        # config_button.place(x=55, y=220)
+        pass
 
     def about_view(self):
         '''说明页'''
-        pass
+        canvas_export = tk.Canvas(self.about_tab, height=240, width=240)
+        canvas_export.pack()
+        canvas_export.create_rectangle(0, 0, 240, 240, fill="white")
 
     def init_view(self):
         '''初始化视图'''
@@ -155,7 +152,7 @@ class JYMView():
         self._create_menu()
         self._create_tab_control()
         self.index_view()
-        self.config_view()
+        # self.config_view()
         self.about_view()
 
     # 事件区
@@ -172,9 +169,9 @@ class JYMView():
         }
         return user_input
 
-    def start(self):
+    def listen_start_event(self):
         '''开始任务'''
-        self.start_button.config(Css.Button['danger_btn'], text='暂停', command=self.pause)
+        self.start_button.config(Css.Button['danger_btn'], text='暂停', command=self.listen_pause_event)
         print(f"{datetime.now()}:任务开始")
         user_input = self.get_user_input()
         global event
@@ -183,10 +180,17 @@ class JYMView():
         task_thread = threading.Thread(target=back_task, name='TaskThread', args=(event, user_input))
         task_thread.start()
 
-    def pause(self):
+    def listen_pause_event(self):
         '''暂停任务'''
-        self.start_button.config(Css.Button['primary_btn'], text='启动', command=self.start)
+        self.start_button.config(Css.Button['primary_btn'], text='启动', command=self.listen_start_event)
         event.set()  # event值设置为True
+
+    def listen_quit_event(self):
+        self.top.quit()
+        exit()
+
+    def listen_config_event(self):
+        os.system("start c:/config.ini")
 
 
 def back_task(event, user_input):

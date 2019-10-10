@@ -54,7 +54,7 @@ def find_target_color(color, callback=lambda: None):
     :param color：RGB颜色元组(86,200,42)  callback:未找到颜色该做什么
     :return x,y：目标色块的坐标
     '''
-    left, top, right, bottom = find_window()
+    left, top, right, bottom = find_window(Window_name)
     im = ImageGrab.grab((left, top, right, bottom))  # 与坐标不同，这里0，0，1，1是一个像素，而坐标是从0~1919的
     width, height = im.size
     pix = im.load()
@@ -161,7 +161,7 @@ def collect_money():
 
 def reboot():
     '''重启游戏，刷新火车，提高效率'''
-    others = count_crood()['others']
+    others = Croods['others']
     # 点击头像
     mouse.position = others['avator']
     mouse.click(Button.left)
@@ -215,7 +215,7 @@ def cargo(user_input):
         collect_money()                                                   # 收集金币
         init_mouse()                                                      # 初始化鼠标
         print("游戏重启...")
-        # reboot()                                                          # 进入重启
+        reboot()                                                          # 进入重启
         time.sleep(10)
     else:
         time.sleep(3)

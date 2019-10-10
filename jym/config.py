@@ -1,23 +1,25 @@
 import os
 import configparser
+from tkinter import messagebox as mes
+
 import win32gui
 
 
 def read_config():
-    base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    config_file = os.path.join(base_path, 'config.ini')
+    # base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    config_file = os.path.join("C:/", 'config.ini')
     cf = configparser.ConfigParser()
     try:
         cf.read(config_file, encoding='utf-8')
     except:
         print("配置文件未找到")
+        mes.showerror("错误提示", "未找到配置文件")
     else:
         return cf
 
 
-def find_window():
+def find_window(window_name):
     '''定位模拟器的坐标'''
-    window_name = '雷电模拟器'
     try:
         hwnd = win32gui.FindWindow(None, window_name)
         crood = win32gui.GetWindowRect(hwnd)
@@ -27,9 +29,9 @@ def find_window():
         return crood  # 1330 11 1908 1009
 
 
-def count_crood():
+def count_crood(window_name):
     '''计算相对坐标'''
-    left, top, right, bottom = find_window()
+    left, top, right, bottom = find_window(window_name)
     buildings = {
         # 'building1': (left+150, top+380),  # (1480, 390),
         # 'building2': (left+270, top+300),  # (1600, 310),
@@ -69,7 +71,7 @@ def count_crood():
         "logout": (left+152, top+755),  # (1494, 779),
         "login": (left+200, top+820),  # (1625, 823),
         "train": (left+257, top+880),   # (1599, 904)
-        "safe": (left+10, top+110)  # 安全点
+        "safe": (left+3, top+110)  # 安全点
     }
     return {
         "buildings": buildings,
@@ -88,8 +90,8 @@ if Use_crood != '0':
 
     }
 else:
-    Croods = count_crood()
+    Croods = count_crood(Window_name)
 
 
 if __name__ == '__main__':
-    print(Croods)
+    print(Window_name)
