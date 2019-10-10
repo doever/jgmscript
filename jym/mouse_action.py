@@ -25,6 +25,7 @@ def mouse_drag(src, dist):
 def mouse_lclick():
     '''鼠标左键单击'''
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN | win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+    time.sleep(0.1)   # 20191010 鼠标也需要一个反应的时间
     # win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
 
 

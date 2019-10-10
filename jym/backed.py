@@ -95,12 +95,13 @@ def find_target_building(color):
             for height in range(crood[1]-height_offset, crood[1]+height_offset):
                 if color_like(pix[width, height], color, 15):
                     count += 1
-        # print(f"在{building}中共找到{count}处与目标值相近")
+
         if count > 8:  # 如果发现八处，那就八九不离十了
             print(f"目标建筑是{building}")
             return Croods['buildings'][building]  # 返回建筑坐标
         else:
             continue
+    print(f"***************在{building}中共找到{count}处与目标值相近******************")
     return 0, 0  # 表示未找到
 
 
@@ -165,14 +166,28 @@ def reboot():
     # 点击头像
     mouse.position = others['avator']
     mouse.click(Button.left)
-    time.sleep(1.5)
     # 点击退出
+    time.sleep(2.5)
     mouse.position = others['logout']
     mouse.click(Button.left)
-    time.sleep(5)
+
+    # 重复一次，确保一定可以退出
+    time.sleep(1)
+    mouse.position = others['logout']
+    mouse.click(Button.left)
+
     # 点击登录，微信登录，需改成可以选择登录方式
     mouse.position = others['login']
+    time.sleep(5)
+    mouse.position = others['login']
     mouse.click(Button.left)
+
+    # 重复一次确保一定可以登录
+    time.sleep(0.2)
+    mouse.position = others['login']
+    mouse.click(Button.left)
+
+    init_mouse()  # 初始化鼠标
 
 
 def discharge_cargo(cargo_crood, times):
@@ -219,17 +234,57 @@ def cargo(user_input):
         time.sleep(10)
     else:
         time.sleep(3)
+        collect_money()                  # 20191010 等待火车的时候也需要收集下金币
         print("等待火车中...")
+
+
+def open_pag(crood, count, reset_count):
+    '''
+    鼠标循环点击
+    :param crood: 点击的坐标
+    :param count: 需要开多少个
+    :param reset_count: 因为红包里东西个数不同，需要重置多少次
+    :return:
+    '''
+    if reset_count == 6:
+        who = "福气红包"
+    elif reset_count == 10:
+        who = "多福红包"
+    elif reset_count == 14:
+        who = "满福红包"
+    elif reset_count == 8:
+        who = "相册"
+    else:
+        who = '道具'
+
+    for i in range(count):
+        mouse_move(crood)
+        mouse_lclick()
+        print(f"正在开第{i+1}个{who}")
+        for j in range(reset_count):
+            mouse_move(Croods['others']['safe'])
+            mouse_lclick()
+            time.sleep(0.3)
 
 
 def open_red_package(user_input):
     '''开红包'''
-    print("开红包中")
+    blue_package = user_input['blue_package']
+    purple_package = user_input['purple_package']
+    epic_package = user_input['epic_package']
+    mouse_move(Croods['others']['store'])
+    mouse_lclick()
+    open_pag(Croods['others']['epic_package'], epic_package, 14)
+    open_pag(Croods['others']['purple_package'], purple_package, 10)
+    open_pag(Croods['others']['blue_package'], blue_package, 6)
 
 
 def open_photo(user_input):
     '''开相册'''
-    print("开相册中")
+    photo = user_input['photo_count']
+    mouse_move(Croods['others']['store'])
+    mouse_lclick()
+    open_pag(Croods['others']['photo'], photo, 8)
 
 
 def main(user_input):

@@ -33,16 +33,6 @@ def count_crood(window_name):
     '''计算相对坐标'''
     left, top, right, bottom = find_window(window_name)
     buildings = {
-        # 'building1': (left+150, top+380),  # (1480, 390),
-        # 'building2': (left+270, top+300),  # (1600, 310),
-        # 'building3': (left+400, top+240),  # (1730, 250),
-        # 'building4': (left+150, top+510),  # (1480, 510),
-        # 'building5': (left+270, top+450),  # (1600, 450),
-        # 'building6': (left+400, top+390),  # (1730, 390),
-        # 'building7': (left+150, top+630),  # (1480, 630),
-        # 'building8': (left+270, top+580),  # (1600, 580),
-        # 'building9': (left+400, top+510)   # (1730, 510)
-
         'building1': (left + 147, top + 397),
         'building2': (left + 276, top + 332),
         'building3': (left + 402, top + 266),
@@ -53,29 +43,31 @@ def count_crood(window_name):
         'building8': (left + 276, top + 588),
         'building9': (left + 402, top + 523),
     }
-    epic_buildings = {
-
-    }
     cargos = {
-        'cargo1': (left+329, top+857),  # (1671, 881),
-        'cargo2': (left+410, top+821),  # (1703, 783),
-        'cargo3': (left+489, top+772)   # (1831, 796)
+        'cargo1': (left+329, top+857),  # (1671, 881),货物1
+        'cargo2': (left+410, top+821),  # (1703, 783),货物2
+        'cargo3': (left+489, top+772)   # (1831, 796)货物3
     }
     cargo_tag = {
-        'cargo1': (left+294, top+818),  # (1636, 842),
-        'cargo2': (left+372, top+777),  # (1714, 801),
-        'cargo3': (left+449, top+734)   # (1791, 758)
+        'cargo1': (left+294, top+818),  # (1636, 842),货物标记1
+        'cargo2': (left+372, top+777),  # (1714, 801),货物标记2
+        'cargo3': (left+449, top+734)   # (1791, 758) 货物标记3
     }
     others = {
-        "avator": (left+28, top+66),    # (1370, 90),
-        "logout": (left+152, top+755),  # (1494, 779),
-        "login": (left+200, top+820),  # (1625, 823),
+        "avator": (left+28, top+66),    # (1370, 90), 头像
+        "logout": (left+152, top+755),  # (1494, 779), 退出登录
+        "login": (left+172, top+830),  # (1625, 823),  微信登录
+        "login2": (left + 395, top + 820),  # (1625, 823), qq登录
         "train": (left+257, top+880),   # (1599, 904)
-        "safe": (left+3, top+110)  # 安全点
+        "safe": (left+3, top+110),  # 安全点
+        "store": (left+254, top+953),  # 商店
+        "blue_package": (left+101, top+377),  # 蓝色红包
+        "purple_package": (left+275, top+377),  # 紫色红包
+        "epic_package": (left+435, top+377),  # 橙色红包
+        "photo": (left+267, top+734),  # 相册
     }
     return {
         "buildings": buildings,
-        "epic_buildings": epic_buildings,
         "cargos": cargos,
         "cargo_tags": cargo_tag,
         "others": others

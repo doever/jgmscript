@@ -77,14 +77,14 @@ class JYMView():
         tk.Checkbutton(self.index_tab, text='卸所有类型货物', variable=self.all_cargo, onvalue=1, offvalue=0).place(x=63, y=140)
         # 数量值
         tk.Label(self.index_tab, text='红包个数',).place(x=10, y=175)
-        self.pag_count1 = tk.Entry(self.index_tab, bd=0, bg='white', width=3)
-        self.pag_count2 = tk.Entry(self.index_tab, bd=0, bg='white', width=3)
-        self.pag_count3 = tk.Entry(self.index_tab, bd=0, bg='white', width=3)
+        self.blue_package = tk.Entry(self.index_tab, bd=0, bg='white', width=3)
+        self.purple_package = tk.Entry(self.index_tab, bd=0, bg='white', width=3)
+        self.epic_package = tk.Entry(self.index_tab, bd=0, bg='white', width=3)
         tk.Label(self.index_tab, text='相册个数', ).place(x=150, y=175)
         self.photo_count = tk.Entry(self.index_tab, bd=0, bg='white', width=4)
-        self.pag_count1.place(x=65, y=177)
-        self.pag_count2.place(x=93, y=177)
-        self.pag_count3.place(x=121, y=177)
+        self.blue_package.place(x=65, y=177)
+        self.purple_package.place(x=93, y=177)
+        self.epic_package.place(x=121, y=177)
         self.photo_count.place(x=205, y=177)
 
     def config_view(self):
@@ -162,10 +162,10 @@ class JYMView():
             'auto_money': self.auto_money.get(),
             'auto_level': self.auto_level.get(),
             'all_cargo': self.all_cargo.get(),
-            'pag_count1': self.pag_count1.get(),
-            'pag_count2': self.pag_count2.get(),
-            'pag_count3': self.pag_count3.get(),
-            'photo_count': self.photo_count.get(),
+            'blue_package': int(self.blue_package.get()),
+            'purple_package': int(self.purple_package.get()),
+            'epic_package': int(self.epic_package.get()),
+            'photo_count': int(self.photo_count.get())
         }
         return user_input
 
