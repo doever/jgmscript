@@ -1,5 +1,6 @@
 import time
 import random
+
 from pynput.mouse import Button, Controller
 import win32gui, win32api, win32con
 from win32api import GetSystemMetrics
@@ -93,15 +94,15 @@ def find_target_building(color):
         count = 0
         for width in range(crood[0]-width_offset, crood[0]+width_offset):
             for height in range(crood[1]-height_offset, crood[1]+height_offset):
-                if color_like(pix[width, height], color, 15):
+                if color_like(pix[width, height], color, 30):
                     count += 1
 
-        if count > 8:  # 如果发现八处，那就八九不离十了
+        if count > 5:  # 如果发现八处，那就八九不离十了  # 8似乎有点苛刻
             print(f"目标建筑是{building}")
             return Croods['buildings'][building]  # 返回建筑坐标
         else:
+            print(f"***************在{building}中共找到{count}处与目标值相近******************")
             continue
-    print(f"***************在{building}中共找到{count}处与目标值相近******************")
     return 0, 0  # 表示未找到
 
 
@@ -156,8 +157,8 @@ def collect_money():
     for building, crood in buildings_crood.items():
         mouse.position = crood
         mouse.click(Button.left, 1)
-        print(f"已收集{building}金币")
-        time.sleep(0.1)
+
+    print(f"金币收集完成...")
 
 
 def reboot():
@@ -219,22 +220,24 @@ def cargo(user_input):
         for cargo, crood in Croods['cargo_tags'].items():
             if all_cargo:                                                 # 选择拉所有货
                 print(f"搬运货物{cargo}中")
-                discharge_cargo(Croods['cargos'][cargo], 5)
+                discharge_cargo(Croods['cargos'][cargo], 6)
             else:
                 # pix = pil_image()
                 if have_epic(crood):   # 如果是史诗货物
                     print(f"在{cargo}出发现史诗货物")
-                    discharge_cargo(Croods['cargos'][cargo], 3)           # 按史诗卸货
+                    discharge_cargo(Croods['cargos'][cargo], 4)           # 按史诗卸货
                 else:
                     print(f'在{cargo}未发现史诗货物')
         collect_money()                                                   # 收集金币
         init_mouse()                                                      # 初始化鼠标
-        print("游戏重启...")
-        reboot()                                                          # 进入重启
-        time.sleep(10)
+        if Reboot.lower() == 'yes':
+            print("游戏重启...")
+            reboot()                                                      # 进入重启
+            time.sleep(10)
     else:
-        time.sleep(4)
-        collect_money()                  # 20191010 等待火车的时候也需要收集下金币
+        time.sleep(3)
+        if user_input["auto_money"]:
+            collect_money()                  # 20191010 等待火车的时候也需要收集下金币
         print("等待火车中...")
 
 

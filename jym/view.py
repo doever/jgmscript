@@ -5,6 +5,8 @@ from tkinter import ttk
 import threading
 from datetime import datetime
 
+import webbrowser
+
 from jym.css import Css
 from jym.backed import *
 
@@ -44,6 +46,8 @@ class JYMView():
         # 第一个菜单
         fileMenu = tk.Menu(menuBar, tearoff=0)
         fileMenu.add_command(label="配置", command=self.listen_config_event)
+        fileMenu.add_separator()
+        fileMenu.add_command(label="升级程序", command=self.update_program)
         fileMenu.add_separator()
         fileMenu.add_command(label="意见反馈", command=None)
         fileMenu.add_separator()
@@ -191,6 +195,9 @@ class JYMView():
 
     def listen_config_event(self):
         os.system("start c:/config.ini")
+
+    def update_program(self):
+        webbrowser.open('https://github.com/doever/jgmscript/tree/master/download')
 
 
 def back_task(event, user_input):

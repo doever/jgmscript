@@ -5,17 +5,23 @@ from tkinter import messagebox as mes
 import win32gui
 
 
-def read_config():
-    # base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def read_config(sec, item):
+    '''
+    读取配置文件
+    :param sec:节点名
+    :param item: 配置项名
+    :return:
+    '''
     config_file = os.path.join("C:/", 'config.ini')
     cf = configparser.ConfigParser()
     try:
         cf.read(config_file, encoding='utf-8')
-    except:
+        value = cf.get(sec, item)
+    except NameError as err:
         print("配置文件未找到")
         mes.showerror("错误提示", "未找到配置文件")
     else:
-        return cf
+        return value
 
 
 def find_window(window_name):
@@ -24,8 +30,8 @@ def find_window(window_name):
         hwnd = win32gui.FindWindow(None, window_name)
         crood = win32gui.GetWindowRect(hwnd)
     except:
-        print("未获取窗口")
-        mes.showerror("错误提示", "未获取到窗口，请先修改config文件")
+        print("未获取窗口，请先打开模拟器，如果已经打开，请对应窗口修改配置文件")
+        mes.showerror("错误提示", "未获取窗口，请先打开模拟器，如果已经打开，请对应窗口修改配置文件")
     else:
         return crood  # 1330 11 1908 1009
 
@@ -75,10 +81,10 @@ def count_crood(window_name):
     }
 
 
-Cf = read_config()
-Window_name = Cf.get("Window", "window_name")
-Use_crood = Cf.get("Crood", "use_crood")
-if Use_crood != '0':
+Window_name = read_config("Window", "window_name")
+Reboot = read_config("Reboot", "is_reboot")
+Use_crood = read_config("Crood", "use_user_crood")
+if Use_crood.lower() == 'yes':  # 使用用户自定义的坐标
     Croods = {
 
     }
