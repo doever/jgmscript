@@ -8,9 +8,9 @@ from jym.view import *
 # print(train_come())
 # mouse_move(Croods['others']['train'])
 
-for b, c in Croods['buildings'].items():
-    mouse_move(c)
-    time.sleep(1)
+# for b, c in Croods['buildings'].items():
+#     mouse_move(c)
+#     time.sleep(1)
 
 # mouse_move(Croods['others']['safe'])
 
@@ -22,4 +22,4 @@ for b, c in Croods['buildings'].items():
 
 # open_photo({'photo_count': 8, 'purple_package': 0, 'epic_package': 1})
 
-# j = JYMView()
+j = JYMView()

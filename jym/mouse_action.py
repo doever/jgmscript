@@ -9,6 +9,7 @@ def mouse_move(dist):
     :param  dist:坐标元组(x, y)
     '''
     win32api.SetCursorPos(dist)
+    # win32api.GetCursorPos()
 
 
 def mouse_drag(src, dist):

@@ -47,9 +47,9 @@ class JYMView():
         fileMenu = tk.Menu(menuBar, tearoff=0)
         fileMenu.add_command(label="配置", command=self.listen_config_event)
         fileMenu.add_separator()
-        fileMenu.add_command(label="升级程序", command=self.update_program)
+        fileMenu.add_command(label="升级链接", command=self.update_program)
         fileMenu.add_separator()
-        fileMenu.add_command(label="意见反馈", command=None)
+        fileMenu.add_command(label="意见反馈", command=self.listen_feedback_event)
         fileMenu.add_separator()
         fileMenu.add_command(label="退出程序", command=self.listen_quit_event)
         menuBar.add_cascade(label="系统", menu=fileMenu)
@@ -148,7 +148,12 @@ class JYMView():
         '''说明页'''
         canvas_export = tk.Canvas(self.about_tab, height=240, width=240)
         canvas_export.pack()
-        canvas_export.create_rectangle(0, 0, 240, 240, fill="white")
+        canvas_export.create_rectangle(0, 0, 240, 240, fill="#eee")
+        tk.Label(self.about_tab, text="使用说明", fg=Css.Color['main_color'], font=('Comic Sans MS', 16)).place(x=15, y=10)
+        tk.Label(self.about_tab, text="* 使用前请先看下使用说明",).place(x=15, y=50)
+        tk.Label(self.about_tab, text="* 配置文件请放在C盘根路径").place(x=15, y=70)
+        tk.Label(self.about_tab, text="* 小屏用户需要修改配置.ini文件,请将").place(x=15, y=90)
+        tk.Label(self.about_tab, text="  small_simulator值修改为yes").place(x=15, y=110)
 
     def init_view(self):
         '''初始化视图'''
@@ -193,11 +198,23 @@ class JYMView():
         self.top.quit()
         exit()
 
-    def listen_config_event(self):
+    @staticmethod
+    def listen_config_event():
         os.system("start c:/config.ini")
 
-    def update_program(self):
-        webbrowser.open('https://github.com/doever/jgmscript/tree/master/download')
+    @staticmethod
+    def update_program():
+        try:
+            webbrowser.open('https://github.com/doever/jgmscript/tree/master/download')
+        except:
+            print('打开Url发生错误,升级下载地址为：https://github.com/doever/jgmscript/tree/master/download')
+
+    @staticmethod
+    def listen_feedback_event():
+        try:
+            webbrowser.open('https://github.com/doever/jgmscript/blob/master/vx.png')
+        except:
+            print('打开Url发生错误,地址为：https://github.com/doever/jgmscript/blob/master/vx.png')
 
 
 def back_task(event, user_input):

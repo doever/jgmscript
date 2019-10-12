@@ -87,8 +87,8 @@ def find_target_color(color, callback=lambda: None):
 def find_target_building(color):
     '''找目标建筑，分割pix为九块，比较九块区域目标色值的个数，最多的或超过多少就是目标建筑'''
     buildings = Croods['buildings']
-    width_offset = 85
-    height_offset = 35
+    width_offset = Croods['offset']['width_offset']
+    height_offset = Croods['offset']['height_offset']
     pix = pil_image()
     for building, crood in buildings.items():
         count = 0
