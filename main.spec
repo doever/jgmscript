@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['D:\\doever\\gitcode_ano\\jgmscript'],
+             pathex=['D:\\doever\\gitcode\\jgmscript'],
              binaries=[],
              datas=[],
              hiddenimports=[],
