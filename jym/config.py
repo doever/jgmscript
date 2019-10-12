@@ -16,7 +16,7 @@ def read_config(sec, item):
     config_file = os.path.join("C:/", 'config.ini')
     cf = configparser.ConfigParser()
     try:
-        cf.read(config_file, encoding='utf-8')
+        cf.read(config_file, encoding='gbk')
         value = cf.get(sec, item)
     except NameError as err:
         print(f"未找到配置项{sec}={item}")
