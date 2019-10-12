@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9f90994-5feb-4891-b470-869e8950f870" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/readMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/readMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/download/使用说明.txt" beforeDir="false" afterPath="$PROJECT_DIR$/download/使用说明.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,11 +25,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="readMe.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="readMe.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/readMe.md">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="184">
               <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="使用说明.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/download/使用说明.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="552">
+              <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -56,6 +65,7 @@
       <list>
         <option value="$PROJECT_DIR$/jym/config.py" />
         <option value="$PROJECT_DIR$/readMe.md" />
+        <option value="$PROJECT_DIR$/download/使用说明.md" />
       </list>
     </option>
   </component>
@@ -85,6 +95,11 @@
             <path>
               <item name="jgmscript" type="b2602c69:ProjectViewProjectNode" />
               <item name="jgmscript" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jgmscript" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jgmscript" type="462c0819:PsiDirectoryNode" />
+              <item name="download" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -206,6 +221,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/download/使用说明.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
         </state>
       </provider>
     </entry>
