@@ -16,10 +16,14 @@ mouse = Controller()
 
 def pil_image():
     '''屏幕截图'''
-    a, b = GetSystemMetrics(0), GetSystemMetrics(1)  # Python获取屏幕分辨率
-    im = ImageGrab.grab((0, 0, a, b))  # 与坐标不同，这里0，0，1，1是一个像素，而坐标是从0~1919的
-    pix = im.load()
-    return pix
+    try:
+        a, b = GetSystemMetrics(0), GetSystemMetrics(1)  # Python获取屏幕分辨率
+        im = ImageGrab.grab((0, 0, a, b))  # 与坐标不同，这里0，0，1，1是一个像素，而坐标是从0~1919的
+        pix = im.load()
+    except:
+        print("请按使用说明修改模拟器大小配置")
+    else:
+        return pix
 
 
 def color_like(colorA, colorB, offset):
@@ -156,7 +160,7 @@ def collect_money():
     buildings_crood = Croods['buildings']
     for building, crood in buildings_crood.items():
         mouse.position = crood
-        mouse.click(Button.left, 1)
+        mouse_lclick()
 
     print(f"金币收集完成...")
 
