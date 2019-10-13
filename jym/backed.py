@@ -130,7 +130,7 @@ def have_color(_crood, _color, _offset=15):
             else:
                 continue
     # print(f"共找到{count}个色块与火车目标颜色接近")
-    if count > 8:  # 如果区域内有8个点颜色相近, 则认为判定成功
+    if count > 5:  # 如果区域内有8个点颜色相近, 则认为判定成功  # 8误差可能较大
         return True
     return False
 
@@ -222,11 +222,10 @@ def cargo(user_input):
         time.sleep(3)  # 火车来的时候需要等一会才会刷新货物
         print("开始卸货")
         for cargo, crood in Croods['cargo_tags'].items():
-            if all_cargo:                                                 # 选择拉所有货
+            if all_cargo:                                                 # 用户选择拉所有货
                 print(f"搬运货物{cargo}中")
                 discharge_cargo(Croods['cargos'][cargo], 6)
             else:
-                # pix = pil_image()
                 if have_epic(crood):   # 如果是史诗货物
                     print(f"在{cargo}出发现史诗货物")
                     discharge_cargo(Croods['cargos'][cargo], 4)           # 按史诗卸货
@@ -234,23 +233,23 @@ def cargo(user_input):
                     print(f'在{cargo}未发现史诗货物')
         collect_money()                                                   # 收集金币
         init_mouse()                                                      # 初始化鼠标
-        if Reboot.lower() == 'yes':
+        if Reboot.lower() == 'yes':                                       # 用户选择重启
             print("游戏重启...")
             reboot()                                                      # 进入重启
             time.sleep(10)
     else:
         time.sleep(3)
         if user_input["auto_money"]:
-            collect_money()                  # 20191010 等待火车的时候也需要收集下金币
+            collect_money()                  # 20191010 等待火车的时候也需要收集下金币 --来自某个吧友的要求
         print("等待火车中...")
 
 
 def open_pag(crood, count, reset_count):
     '''
-    鼠标循环点击
-    :param crood: 点击的坐标
-    :param count: 需要开多少个
-    :param reset_count: 因为红包里东西个数不同，需要重置多少次
+    鼠标循环点击，封装点击操作
+    :param crood: 需要开什么道具，传道具的坐标
+    :param count: 需要开多少个道具
+    :param reset_count: 因为红包里东西个数不同，需要的点击次数也不同
     :return:
     '''
     if reset_count == 6:
@@ -279,7 +278,7 @@ def open_pag(crood, count, reset_count):
 
 
 def open_red_package(user_input):
-    '''开红包'''
+    '''开红包模式'''
     blue_package = user_input['blue_package']
     purple_package = user_input['purple_package']
     epic_package = user_input['epic_package']
@@ -291,7 +290,7 @@ def open_red_package(user_input):
 
 
 def open_photo(user_input):
-    '''开相册'''
+    '''开相册模式'''
     photo = user_input['photo_count']
     mouse_move(Croods['others']['store'])
     mouse_lclick()
@@ -315,9 +314,8 @@ if __name__ == '__main__':
     #     main({'mode': '1', 'all_cargo': 1})
     #     time.sleep(3)
 
-    pass
     # cargo = Croods['cargo_tags']
     # for b, c in cargo.items():
     #     mouse_move(c)
     #     time.sleep(1)
-
+    pass
