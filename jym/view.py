@@ -51,8 +51,8 @@ class JYMView():
         fileMenu.add_separator()
         fileMenu.add_command(label="使用说明", command=self.instructions)
         fileMenu.add_separator()
-        fileMenu.add_command(label="意见反馈", command=self.listen_feedback_event)
-        fileMenu.add_separator()
+        # fileMenu.add_command(label="意见反馈", command=self.listen_feedback_event)
+        # fileMenu.add_separator()
         fileMenu.add_command(label="退出程序", command=self.listen_quit_event)
         menuBar.add_cascade(label="系统", menu=fileMenu)
 

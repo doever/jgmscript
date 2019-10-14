@@ -258,7 +258,7 @@ def open_pag(crood, count, reset_count):
         who = "多福红包"
     elif reset_count == 14:
         who = "满福红包"
-    elif reset_count == 8:
+    elif reset_count == 5:
         who = "相册"
     else:
         who = '道具'
@@ -294,7 +294,7 @@ def open_photo(user_input):
     photo = user_input['photo_count']
     mouse_move(Croods['others']['store'])
     mouse_lclick()
-    open_pag(Croods['others']['photo'], photo, 8)
+    open_pag(Croods['others']['photo'], photo, 5)
 
 
 def main(user_input):
