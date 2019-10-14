@@ -15,8 +15,9 @@
  * 务必将配置文件放在C盘根目录
  * 修改配置文件请重新启动本程序
  * 如果遇到程序闪退情况，请把配置文件另存为，保存编码选择ANSI；
- * 如果遇到程序一直没有停在那里等待火车，或者报错image index out of range之类的，请修改配置文件small_simulator，小屏用户（分辨率最大1368x768），请将small_simulator
-改为yes，并用鼠标拖拽将模拟器高度设置为700，宽度自适应；大屏用户请将small_simulator改为no，雷电模拟器需设置，  设置 -> 性能设置 -> 手机版 -> 560x960(dpi240) ->保存重启
+ * 如果遇到程序一直没有停在那里等待火车，或者报错image index out of range之类的，请按下面操作修改配置文件：，
+        小屏用户（即电脑分辨率最大1368x768或者笔记本），请将small_simulator改为yes，雷电模拟器需设置，设置 -> 性能设置 -> 自定义 -> 宽：372，高：662，DPI：240 ->保存重启（或者手动把模拟器宽高调到410*710）
+        大屏用户请将small_simulator改为no，雷电模拟器需设置，设置 -> 性能设置 -> 手机版 -> 560x960(dpi240) ->保存重启 （或者手动把模拟器宽高调到578*998）
  * 开红包，相册功能目前发现停不下来的BUG，请慎用！！
  * 请尽可能使用雷电模拟器，下载地址https://www.ldmnq.com/ （如果不是雷电模拟器，需要在配置文件中修改window_name）
  * 如果报错：无法定位程序输入点ucrtbase.terminate于动态链接库api-ms-win-crt-runtime-l1-1-0.dll，请参考：https://blog.csdn.net/wsasy12345/article/details/82746861

@@ -1,5 +1,6 @@
 import time
 import random
+from datetime import datetime
 
 from pynput.mouse import Button, Controller
 import win32gui, win32api, win32con
@@ -219,14 +220,14 @@ def cargo(user_input):
     '''
     all_cargo = user_input['all_cargo']
     if train_come():
-        time.sleep(3)  # 火车来的时候需要等一会才会刷新货物
+        time.sleep(3)                                                     # 火车来的时候需要等一会才会刷新货物
         print("开始卸货")
         for cargo, crood in Croods['cargo_tags'].items():
             if all_cargo:                                                 # 用户选择拉所有货
                 print(f"搬运货物{cargo}中")
                 discharge_cargo(Croods['cargos'][cargo], 6)
             else:
-                if have_epic(crood):   # 如果是史诗货物
+                if have_epic(crood):                                      # 如果是史诗货物
                     print(f"在{cargo}出发现史诗货物")
                     discharge_cargo(Croods['cargos'][cargo], 4)           # 按史诗卸货
                 else:
@@ -239,8 +240,12 @@ def cargo(user_input):
             time.sleep(10)
     else:
         time.sleep(3)
+        init_mouse()                                                      # 初始化鼠标，防止中国之光的影响
         if user_input["auto_money"]:
             collect_money()                  # 20191010 等待火车的时候也需要收集下金币 --来自某个吧友的要求
+
+        # if getattr(datetime.now(),'hour') == 0 and getattr(datetime.now(),'hour') == 2:     # 零点重启，让火车刷新，考虑需要微信在线，暂不加
+        #     reboot()
         print("等待火车中...")
 
 
