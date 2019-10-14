@@ -148,6 +148,8 @@ Window_name = read_config("Window", "window_name")
 Reboot = read_config("Reboot", "is_reboot")
 Small_simulator = read_config("Window", "small_simulator")
 Wx_login = read_config("Window", "wx_login")
+Midnight_reboot = read_config("Reboot", "midnight_reboot")
+
 if Small_simulator.lower() == 'yes':  # 使用小屏坐标
     Croods = small_simulator_crood(Window_name, Wx_login)
 else:

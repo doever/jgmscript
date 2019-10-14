@@ -244,8 +244,9 @@ def cargo(user_input):
         if user_input["auto_money"]:
             collect_money()                  # 20191010 等待火车的时候也需要收集下金币 --来自某个吧友的要求
 
-        # if getattr(datetime.now(),'hour') == 0 and getattr(datetime.now(),'hour') == 2:     # 零点重启，让火车刷新，考虑需要微信在线，暂不加
-        #     reboot()
+        if Midnight_reboot == 'yes' and getattr(datetime.now(),'hour') == 0 and getattr(datetime.now(),'hour') == 2:     # 零点重启，让火车刷新
+            reboot()
+            print("0点重启中...")
         print("等待火车中...")
 
 
