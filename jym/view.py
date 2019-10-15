@@ -49,8 +49,6 @@ class JYMView():
         fileMenu.add_separator()
         fileMenu.add_command(label="升级链接", command=self.update_program)
         fileMenu.add_separator()
-        fileMenu.add_command(label="使用说明", command=self.instructions)
-        fileMenu.add_separator()
         # fileMenu.add_command(label="意见反馈", command=self.listen_feedback_event)
         # fileMenu.add_separator()
         fileMenu.add_command(label="退出程序", command=self.listen_quit_event)
@@ -207,23 +205,16 @@ class JYMView():
     @staticmethod
     def update_program():
         try:
-            webbrowser.open('https://github.com/doever/jgmscript/tree/master/download')
+            webbrowser.open('https://github.com/doever/jgmscript/releases')
         except:
-            print('打开Url发生错误,升级下载地址为：https://github.com/doever/jgmscript/tree/master/download')
-
-    @staticmethod
-    def instructions():
-        try:
-            webbrowser.open('https://github.com/doever/jgmscript/blob/master/download/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md')
-        except:
-            print('打开Url发生错误,地址为：https://github.com/doever/jgmscript/blob/master/download/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md')
+            print('打开Url发生错误')
 
     @staticmethod
     def listen_feedback_event():
         try:
             webbrowser.open('https://github.com/doever/jgmscript/blob/master/vx.png')
         except:
-            print('打开Url发生错误,地址为：https://github.com/doever/jgmscript/blob/master/vx.png')
+            print('打开Url发生错误')
 
 
 def back_task(event, user_input):
