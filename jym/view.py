@@ -60,7 +60,7 @@ class JYMView():
         title.pack()
         tk.Label(self.index_tab, text='-----------------------------------', font=('', 10)).pack()
         self.start_button = tk.Button(self.index_tab, Css.Button['primary_btn'], text="启动", command=self.listen_start_event)
-        self.start_button.place(x=46, y=210)
+        self.start_button.place(x=53, y=210)
 
         # 模式选择框
         tk.Label(self.index_tab, text='选择功能').place(x=10, y=52)
@@ -155,8 +155,11 @@ class JYMView():
         tk.Label(self.about_tab, text="* 小屏用户需要修改配置.ini文件,请将").place(x=15, y=100)
         tk.Label(self.about_tab, text="  small_simulator值修改为yes").place(x=15, y=125)
 
+        self.crood_button = tk.Button(self.about_tab, Css.Button['primary_btn'], text="测试坐标", command=self.listen_crood_event)
+        self.crood_button.place(x=15, y=160)
+
     def init_view(self):
-        '''初始化视图'''
+        '''初始化所有视图页面'''
         self._set_title('家园梦自动卸货2.0')
         self._create_menu()
         self._create_tab_control()
@@ -164,7 +167,7 @@ class JYMView():
         # self.config_view()
         self.about_view()
 
-    # 事件区
+    # 事件
     def get_user_input(self):
         user_input = {
             'mode': self.mode.get(),
@@ -186,7 +189,7 @@ class JYMView():
         global event
         event = threading.Event()
         event.clear()  # event值设置为False
-        task_thread = threading.Thread(target=back_task, name='TaskThread', args=(event, user_input))
+        task_thread = threading.Thread(target=task_threading, name='TaskThread', args=(event, user_input))
         task_thread.start()
 
     def listen_pause_event(self):
@@ -216,14 +219,24 @@ class JYMView():
         except:
             print('打开Url发生错误')
 
+    def listen_crood_event(self):
+        print(Croods)
+        print("窗口大小：")
+        print(find_window(Window_name))
+        for k, v in Croods.items():
+            for name, crood in v.items():
+                mouse_move(crood)
+                print(name,'的坐标是', str(crood))
+                time.sleep(2)
 
-def back_task(event, user_input):
-    while 1:
-        if event.isSet():
-            print(f"{datetime.now()}:任务暂停")
-            break
-        main(user_input)
-        time.sleep(1)
+
+# def back_task(event, user_input):
+    # while 1:
+    #     if event.isSet():
+    #         print(f"{datetime.now()}:任务暂停")
+    #         break
+    #     main(event, user_input)
+    #     time.sleep(1)
 
 
 if __name__ == '__main__':

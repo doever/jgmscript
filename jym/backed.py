@@ -225,11 +225,11 @@ def cargo(user_input):
         for cargo, crood in Croods['cargo_tags'].items():
             if all_cargo:                                                 # 用户选择拉所有货
                 print(f"搬运货物{cargo}中")
-                discharge_cargo(Croods['cargos'][cargo], 6)
+                discharge_cargo(Croods['cargos'][cargo], 5)
             else:
                 if have_epic(crood):                                      # 如果是史诗货物
                     print(f"在{cargo}出发现史诗货物")
-                    discharge_cargo(Croods['cargos'][cargo], 4)           # 按史诗卸货
+                    discharge_cargo(Croods['cargos'][cargo], 3)           # 按史诗卸货
                 else:
                     print(f'在{cargo}未发现史诗货物')
         collect_money()                                                   # 收集金币
@@ -303,10 +303,14 @@ def open_photo(user_input):
     open_pag(Croods['others']['photo'], photo, 5)
 
 
-def main(user_input):
+def task_threading(event, user_input):
     mode = user_input['mode']
     if mode == '1':
-        cargo(user_input)
+        while 1:
+            if event.isSet():
+                print(f"{datetime.now()}:任务暂停")
+                break
+            cargo(user_input)
     elif mode == '2':
         open_red_package(user_input)
     else:
