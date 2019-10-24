@@ -1,6 +1,7 @@
 import time
 import random
 from datetime import datetime
+import queue
 
 from pynput.mouse import Button, Controller
 import win32gui, win32api, win32con
@@ -34,6 +35,13 @@ def color_like(colorA, colorB, offset):
     if abs(diff) < offset:
         is_like = True
     return is_like
+
+
+def release(q):
+    if q.empty():
+        return None
+    q.get()
+    release(q)
 
 
 def mouse_move_2(src, dist):
@@ -211,16 +219,18 @@ def discharge_cargo(cargo_crood, times):
             print(f"移动货物{cargo_crood}到建筑{target_crood}上")
 
 
-def cargo(user_input):
+def cargo(user_input, task_queue):
     '''
     卸货模式:
     1.判断火车有没有来，间隔等待3s，来了进入史诗资源判断
-    2.依次判断三个货箱有没有史诗，有则进入卸货（加收获金币），没有重启
-    3.再次进入火车判断
+    2.依次判断三个货箱有没有史诗，有则进入卸货（加收获金币），没有根据用户配置选择是否重启
+    3.收集金币，安全点击，防卡登录界面点击
+    4.再次进入火车判断
     '''
     all_cargo = user_input['all_cargo']
     if train_come():
         time.sleep(3)                                                     # 火车来的时候需要等一会才会刷新货物
+        release(task_queue)
         print("开始卸货")
         for cargo, crood in Croods['cargo_tags'].items():
             if all_cargo:                                                 # 用户选择拉所有货
@@ -244,9 +254,16 @@ def cargo(user_input):
         if user_input["auto_money"]:
             collect_money()                  # 20191010 等待火车的时候也需要收集下金币 --来自某个吧友的要求
 
-        if Midnight_reboot == 'yes' and getattr(datetime.now(),'hour') == 0 and getattr(datetime.now(),'hour') == 2:     # 零点重启，让火车刷新
+        if Midnight_reboot == 'yes' and datetime.now().hour == 0 and datetime.now().minute == 2:     # 0点2分重启，让火车刷新
             reboot()
             print("0点重启中...")
+
+        task_queue.put_nowait(1)
+        if task_queue.qsize() == task_queue.maxsize:   # 防止一直卡在登录界面上
+            mouse_move(Croods['others']['login'])
+            mouse_lclick()
+            release(task_queue)
+            print("重新登录。。。。。。。。。。。。。")
         print("等待火车中...")
 
 
@@ -305,12 +322,13 @@ def open_photo(user_input):
 
 def task_threading(event, user_input):
     mode = user_input['mode']
+    task_queue = queue.Queue(10)
     if mode == '1':
         while 1:
             if event.isSet():
                 print(f"{datetime.now()}:任务暂停")
                 break
-            cargo(user_input)
+            cargo(user_input, task_queue)
     elif mode == '2':
         open_red_package(user_input)
     else:

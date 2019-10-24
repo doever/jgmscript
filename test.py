@@ -4,6 +4,7 @@ from jym.backed import *
 from jym.config import *
 from jym.mouse_action import *
 from jym.view import *
+from jym.up_level import up_level
 
 # print(train_come())
 # mouse_move(Croods['others']['train'])
@@ -12,7 +13,7 @@ from jym.view import *
 #     mouse_move(c)
 #     time.sleep(1)
 
-# mouse_move(Croods['others']['safe'])
+mouse_move(Croods['others']['login'])
 
 # cargo({'mode': '1', 'all_cargo': 0})
 
@@ -22,4 +23,4 @@ from jym.view import *
 
 # open_photo({'photo_count': 8, 'purple_package': 0, 'epic_package': 1})
 
-j = JYMView()
+# up_level(50)

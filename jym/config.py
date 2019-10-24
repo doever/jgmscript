@@ -62,9 +62,9 @@ def large_simulator_crood(window_name, wx_login='yes'):
         'cargo3': (left+449, top+734)   # (1791, 758) 货物标记3
     }
     if wx_login.lower() == 'yes':
-        login = (left+172, top+830)  # (1625, 823),  微信登录
+        login = (left+172, top+850)  # (1625, 823),  微信登录
     else:
-        login = (left + 395, top + 830)  # (1625, 823), qq登录
+        login = (left + 395, top + 850)  # (1625, 823), qq登录
     others = {
         "avator": (left+28, top+66),    # (1370, 90), 头像
         "logout": (left+152, top+755),  # (1494, 779), 退出登录
