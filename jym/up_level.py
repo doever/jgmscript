@@ -13,4 +13,4 @@ def up_level(times):
 
 
 if __name__ == '__main__':
-    up_level(300)
+    up_level(1100)
