@@ -98,7 +98,8 @@ def find_target_color(color, callback=lambda: None):
 
 
 def find_target_building(color):
-    '''找目标建筑，分割pix为九块，比较九块区域目标色值的个数，最多的或超过多少就是目标建筑'''
+    '''找目标建筑，分割pix为九块，比较九块区域目标色值的个数，最多的或超过多少就是目标建筑
+    '''
     buildings = Croods['buildings']
     width_offset = Croods['offset']['width_offset']
     height_offset = Croods['offset']['height_offset']
@@ -123,8 +124,8 @@ def have_color(_crood, _color, _offset=15):
     '''
     此方法用于判断指定坐标点位置四周10像素内是否有一定数量的目标颜色值
     因之前的单点判断会受到坐标误差影响，改为区块判断
-    :param _crood:指定的坐标点 (100, 100)
-    :param _color:目标颜色 (255, 255, 255)
+    :param _crood:指定的坐标点 (x, y)
+    :param _color:目标颜色 (r, g, b)
     :param _offset:颜色偏差值，默认15
     :return:
     '''
